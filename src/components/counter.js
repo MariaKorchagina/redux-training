@@ -1,5 +1,7 @@
 import React from "react";
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import * as actions from '../actions';
 
 const Counter = ({ counter, inc, dec, rnd }) => {
     return (
@@ -17,13 +19,19 @@ const Counter = ({ counter, inc, dec, rnd }) => {
         </div>
     )
 }
-//mapStateToProps - получает значения из store и передает в Counter
+//получает значения из store и передает в Counter
 const mapStateToProps = (state) => {
     return {
         counter: state
     };
 };
 
-export default connect(mapStateToProps)(Counter);
+// выполняет тоже самое, что и ф-ция выше, но работает с dispatch
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(actions, dispatch);
+    //actions связываются с ф-цией dispatch и результирующие св-ва присваиваются нашему объекту
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
 
 //connect - компонент НОС, создает внутри себя новый компонент. Этот компонент обрачивает компонент Counter. Внутри этого компонента получаем доступ ко всему store
